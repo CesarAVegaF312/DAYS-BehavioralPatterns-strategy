@@ -39,14 +39,21 @@ public class MySQLDBAdapter  {
 
     private String createConnectionString() {
         Properties prop = PropertiesUtil.loadProperty(DB_PROPERTIES);
-        String host = prop.getProperty(DB_HOST_PROP);
-        String port = prop.getProperty(DB_PORT_PROP);
-        String db = prop.getProperty(DB_NAME_PROP);
-        String user = prop.getProperty(DB_USER_PROP);
-        String password = prop.getProperty(DB_PASSWORD_PROP);
+        // Las variables de entorno (si existen) tienen prioridad sobre el archivo
+        // properties, para no depender de credenciales hardcodeadas en el repo.
+        String host = envOrProperty("DB_HOST", prop, DB_HOST_PROP);
+        String port = envOrProperty("DB_PORT", prop, DB_PORT_PROP);
+        String db = envOrProperty("DB_NAME", prop, DB_NAME_PROP);
+        String user = envOrProperty("DB_USER", prop, DB_USER_PROP);
+        String password = envOrProperty("DB_PASSWORD", prop, DB_PASSWORD_PROP);
 
         String connectionString = "jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=" + password;
-        System.out.println("ConnectionString ==> " + connectionString);
+        System.out.println("ConnectionString ==> jdbc:mysql://" + host + ":" + port + "/" + db + "?user=" + user + "&password=****");
         return connectionString;
+    }
+
+    private String envOrProperty(String envVar, Properties prop, String propertyKey) {
+        String envValue = System.getenv(envVar);
+        return envValue != null ? envValue : prop.getProperty(propertyKey);
     }
 }

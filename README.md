@@ -63,3 +63,13 @@ java edu.unisabana.dyas.patterns.strategy.StrategyMain
 cd /workspaces/dp-strategy
 
 ```
+
+### Criterios de evaluación
+
+* Diseño.
+	1. `StrategyMain` (el cliente) no debe conocer las clases concretas de autenticación, solo la interfaz `IAuthenticationStrategy`.
+	2. Agregar un nuevo método de autenticación (por ejemplo, contra un servicio LDAP) no debe requerir modificar los proveedores existentes ni el cliente.
+* Implementación.
+	1. Las consultas SQL/XPath deben construirse de forma parametrizada (sin concatenar directamente la entrada del usuario), para evitar inyección.
+* Funcionalidad.
+	1. Cambiar la estrategia de autenticación configurada debe cambiar el método usado sin recompilar la lógica del cliente.

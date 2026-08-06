@@ -12,12 +12,12 @@ import edu.unisabana.dyas.patterns.strategy.impl.Principal;
 
 /**
  @author cesarvefe
- 
+
  */
 public class XMLAuthenticationProvider implements IAuthenticationStrategy {
 
-    private static final String rolXPath = "Users/User[@userName='%s' and @password='%s']/@rol";
-    
+    private static final String rolXPath = "Users/User[@userName=$userName and @password=$password]/@rol";
+
     @Override
     public Principal authenticate(String userName, String passwrd) {
         InputStream file = null;
@@ -27,9 +27,15 @@ public class XMLAuthenticationProvider implements IAuthenticationStrategy {
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             Document xmlDocument = builder.parse(file);
             XPath xPath = XPathFactory.newInstance().newXPath();
-            
-            String xpath = String.format(rolXPath, userName,passwrd);
-            String rol = xPath.compile(xpath).evaluate(xmlDocument);
+            xPath.setXPathVariableResolver(variableName -> {
+                switch (variableName.getLocalPart()) {
+                    case "userName": return userName;
+                    case "password": return passwrd;
+                    default: return null;
+                }
+            });
+
+            String rol = xPath.compile(rolXPath).evaluate(xmlDocument);
             if(rol!=null && !rol.isEmpty()){
                 return new Principal(userName, rol);
             }
