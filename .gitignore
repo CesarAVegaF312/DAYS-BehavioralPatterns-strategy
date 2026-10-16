@@ -1,19 +1,8 @@
-# Bytecode
-build/
-bin/
+# Maven
+target/
 
 # IDE files
 .idea/
-.gradle/
-
-# Compiled Gradle Plugins
-buildSrc/build/
-
-# Dependency cache
-.gradle/
-build/
-
-# Local configuration file (gradle.properties)
-gradle.properties
+*.iml
 
 *.ini

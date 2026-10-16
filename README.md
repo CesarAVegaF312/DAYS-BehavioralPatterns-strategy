@@ -51,19 +51,12 @@ mysql> show tables;
 mysql> select * from users;
 mysql> exit
 
-# Ejecutar Java-App - Preferir que la IDE detecte el proyecto Java, usar solo en caso de que no. 
-Utilizar GitPod en lugar de CodeSpaces.
+# Ejecutar la aplicación Java
 
-cd app/build/classes/java/main
-java edu.unisabana.dyas.patterns.strategy.StrategyMain
-
-```
-### Home (Codespaces)
-```
-cd /workspaces/dp-strategy
+mvn compile
+mvn exec:java
 
 ```
-
 ### Criterios de evaluación
 
 * Diseño.
